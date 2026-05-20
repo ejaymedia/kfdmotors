@@ -1,0 +1,48 @@
+kfdmotors/
+├── index.html
+├── vite.config.js
+├── package.json
+├── .env
+│
+└── src/
+    ├── main.jsx
+    ├── index.css
+    ├── supabase.js
+    ├── supabaseService.js
+    ├── ProtectedRoute.jsx
+    │
+    ├── assets/
+    │   ├── logo/
+    │   │   └── Logo.png
+    │   ├── hero/
+    │   │   └── hero-bg.jpg
+    │   └── cars/
+    │       ├── car1.jpg
+    │       ├── car2.jpg
+    │       └── ...
+    │
+    ├── context/
+    │   └── AuthContext.jsx
+    │
+    ├── components/
+    │   ├── index.js
+    │   ├── Navbar.jsx
+    │   ├── Hero.jsx
+    │   ├── StatsBar.jsx
+    │   ├── HotDeals.jsx
+    │   ├── WhyChooseUs.jsx
+    │   ├── Services.jsx
+    │   ├── Testimonials.jsx
+    │   ├── ContactCTA.jsx
+    │   ├── Footer.jsx
+    │   └── CarCard.jsx
+    │
+    └── pages/
+        ├── Home.jsx
+        ├── InventoryPage.jsx
+        ├── CarDetailPage.jsx
+        ├── AboutPage.jsx
+        ├── FAQPage.jsx
+        ├── ContactPage.jsx
+        ├── AdminLogin.jsx
+        └── AdminDashboard.jsx
