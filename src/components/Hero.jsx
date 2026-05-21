@@ -16,7 +16,7 @@ const Hero = () => {
       {/* Background Image + Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/src/assets/hero/hero-bg.jpg"
+          src={`${import.meta.env.BASE_URL}hero/hero-bg.jpg`}
           alt="Kafadona Motors Hero"
           className="w-full h-full object-cover object-center"
         />

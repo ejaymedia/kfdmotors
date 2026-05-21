@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Logo from "../assets/logo/Logo.png";
+import Logo from "/logo/Logo.png";
 
 const AdminLogin = () => {
   const navigate = useNavigate();

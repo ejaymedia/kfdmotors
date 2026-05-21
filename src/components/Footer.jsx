@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Logo from "../assets/logo/Logo.png";
+import Logo from "/logo/Logo.png";
 
 const quickLinks = [
   { label: "Home", path: "/" },
@@ -52,7 +52,7 @@ const Footer = () => {
               <img
                 src={Logo}
                 alt="Kafadona Motors"
-                className="h-10 w-auto object-contain brightness-0 invert"
+                className="h-10 w-auto object-contain"
               />
             </button>
 

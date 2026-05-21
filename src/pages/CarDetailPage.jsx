@@ -47,9 +47,9 @@ const allCars = [
       "Pre-Collision System",
     ],
     images: [
-      "/src/assets/cars/car1.jpg",
-      "/src/assets/cars/car1.jpg",
-      "/src/assets/cars/car1.jpg",
+      `${import.meta.env.BASE_URL}cars/car1.jpg`,
+      `${import.meta.env.BASE_URL}cars/car1.jpg`,
+      `${import.meta.env.BASE_URL}cars/car1.jpg`,
     ],
   },
   {
@@ -82,9 +82,9 @@ const allCars = [
       "Rear Axle Steering",
     ],
     images: [
-      "/src/assets/cars/car2.jpg",
-      "/src/assets/cars/car2.jpg",
-      "/src/assets/cars/car2.jpg",
+      `${import.meta.env.BASE_URL}cars/car2.jpg`,
+      `${import.meta.env.BASE_URL}cars/car2.jpg`,
+      `${import.meta.env.BASE_URL}cars/car2.jpg`,
     ],
   },
   {
@@ -117,9 +117,9 @@ const allCars = [
       "Vernasca Leather Interior",
     ],
     images: [
-      "/src/assets/cars/car3.jpg",
-      "/src/assets/cars/car3.jpg",
-      "/src/assets/cars/car3.jpg",
+      `${import.meta.env.BASE_URL}cars/car3.jpg`,
+      `${import.meta.env.BASE_URL}cars/car3.jpg`,
+      `${import.meta.env.BASE_URL}cars/car3.jpg`,
     ],
   },
   {
@@ -152,9 +152,9 @@ const allCars = [
       "Rear Entertainment System",
     ],
     images: [
-      "/src/assets/cars/car4.jpg",
-      "/src/assets/cars/car4.jpg",
-      "/src/assets/cars/car4.jpg",
+      `${import.meta.env.BASE_URL}cars/car4.jpg`,
+      `${import.meta.env.BASE_URL}cars/car4.jpg`,
+      `${import.meta.env.BASE_URL}cars/car4.jpg`,
     ],
   },
   {
@@ -187,9 +187,9 @@ const allCars = [
       "Cabin Air Purification",
     ],
     images: [
-      "/src/assets/cars/car5.jpg",
-      "/src/assets/cars/car5.jpg",
-      "/src/assets/cars/car5.jpg",
+      `${import.meta.env.BASE_URL}cars/car5.jpg`,
+      `${import.meta.env.BASE_URL}cars/car5.jpg`,
+      `${import.meta.env.BASE_URL}cars/car5.jpg`,
     ],
   },
   {
@@ -222,9 +222,9 @@ const allCars = [
       "LED Matrix Headlights",
     ],
     images: [
-      "/src/assets/cars/car6.jpg",
-      "/src/assets/cars/car6.jpg",
-      "/src/assets/cars/car6.jpg",
+      `${import.meta.env.BASE_URL}cars/car6.jpg`,
+      `${import.meta.env.BASE_URL}cars/car6.jpg`,
+      `${import.meta.env.BASE_URL}cars/car6.jpg`,
     ],
   },
   {
@@ -257,9 +257,9 @@ const allCars = [
       "Driving Assistance Package",
     ],
     images: [
-      "/src/assets/cars/car7.jpg",
-      "/src/assets/cars/car7.jpg",
-      "/src/assets/cars/car7.jpg",
+      `${import.meta.env.BASE_URL}cars/car7.jpg`,
+      `${import.meta.env.BASE_URL}cars/car7.jpg`,
+      `${import.meta.env.BASE_URL}cars/car7.jpg`,
     ],
   },
   {
@@ -292,9 +292,9 @@ const allCars = [
       "Panoramic Glass Roof",
     ],
     images: [
-      "/src/assets/cars/car8.jpg",
-      "/src/assets/cars/car8.jpg",
-      "/src/assets/cars/car8.jpg",
+      `${import.meta.env.BASE_URL}cars/car8.jpg`,
+      `${import.meta.env.BASE_URL}cars/car8.jpg`,
+      `${import.meta.env.BASE_URL}cars/car8.jpg`,
     ],
   },
   {
@@ -327,9 +327,9 @@ const allCars = [
       "8-inch Touchscreen Display",
     ],
     images: [
-      "/src/assets/cars/car9.jpg",
-      "/src/assets/cars/car9.jpg",
-      "/src/assets/cars/car9.jpg",
+      `${import.meta.env.BASE_URL}cars/car9.jpg`,
+      `${import.meta.env.BASE_URL}cars/car9.jpg`,
+      `${import.meta.env.BASE_URL}cars/car9.jpg`,
     ],
   },
 ];

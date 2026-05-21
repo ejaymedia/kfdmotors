@@ -15,7 +15,7 @@ const placeholderCars = [
     fuel: "Petrol",
     mileage: "0 km",
     transmission: "Automatic",
-    image: "/src/assets/cars/car1.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car1.jpg`,
   },
   {
     id: "2",
@@ -27,7 +27,7 @@ const placeholderCars = [
     fuel: "Petrol",
     mileage: "0 km",
     transmission: "Automatic",
-    image: "/src/assets/cars/car2.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car2.jpg`,
   },
   {
     id: "3",
@@ -39,7 +39,7 @@ const placeholderCars = [
     fuel: "Petrol",
     mileage: "12,000 km",
     transmission: "Automatic",
-    image: "/src/assets/cars/car3.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car3.jpg`,
   },
   {
     id: "4",
@@ -51,7 +51,7 @@ const placeholderCars = [
     fuel: "Petrol",
     mileage: "0 km",
     transmission: "Automatic",
-    image: "/src/assets/cars/car4.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car4.jpg`,
   },
   {
     id: "5",
@@ -63,7 +63,7 @@ const placeholderCars = [
     fuel: "Petrol",
     mileage: "8,500 km",
     transmission: "Automatic",
-    image: "/src/assets/cars/car5.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car5.jpg`,
   },
   {
     id: "6",
@@ -75,7 +75,7 @@ const placeholderCars = [
     fuel: "Petrol",
     mileage: "0 km",
     transmission: "Automatic",
-    image: "/src/assets/cars/car6.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car6.jpg`,
   },
 ];
 

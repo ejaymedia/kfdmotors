@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Logo from "../assets/logo/Logo.png";
+import Logo from "/logo/Logo.png";
 
 const sidebarLinks = [
   { id: "overview", icon: LayoutDashboard, label: "Overview" },

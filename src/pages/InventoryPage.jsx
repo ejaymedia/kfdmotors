@@ -17,7 +17,7 @@ const allCars = [
     mileage: "0 km",
     transmission: "Automatic",
     type: "SUV",
-    image: "/src/assets/cars/car1.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car1.jpg`,
   },
   {
     id: "2",
@@ -30,7 +30,7 @@ const allCars = [
     mileage: "0 km",
     transmission: "Automatic",
     type: "SUV",
-    image: "/src/assets/cars/car2.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car2.jpg`,
   },
   {
     id: "3",
@@ -43,7 +43,7 @@ const allCars = [
     mileage: "12,000 km",
     transmission: "Automatic",
     type: "SUV",
-    image: "/src/assets/cars/car3.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car3.jpg`,
   },
   {
     id: "4",
@@ -56,7 +56,7 @@ const allCars = [
     mileage: "0 km",
     transmission: "Automatic",
     type: "SUV",
-    image: "/src/assets/cars/car4.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car4.jpg`,
   },
   {
     id: "5",
@@ -69,7 +69,7 @@ const allCars = [
     mileage: "8,500 km",
     transmission: "Automatic",
     type: "SUV",
-    image: "/src/assets/cars/car5.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car5.jpg`,
   },
   {
     id: "6",
@@ -82,7 +82,7 @@ const allCars = [
     mileage: "0 km",
     transmission: "Automatic",
     type: "SUV",
-    image: "/src/assets/cars/car6.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car6.jpg`,
   },
   {
     id: "7",
@@ -95,7 +95,7 @@ const allCars = [
     mileage: "15,000 km",
     transmission: "Automatic",
     type: "Sedan",
-    image: "/src/assets/cars/car7.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car7.jpg`,
   },
   {
     id: "8",
@@ -108,7 +108,7 @@ const allCars = [
     mileage: "0 km",
     transmission: "Automatic",
     type: "Sedan",
-    image: "/src/assets/cars/car8.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car8.jpg`,
   },
   {
     id: "9",
@@ -121,7 +121,7 @@ const allCars = [
     mileage: "0 km",
     transmission: "Automatic",
     type: "Sedan",
-    image: "/src/assets/cars/car9.jpg",
+    image: `${import.meta.env.BASE_URL}cars/car9.jpg`,
   },
 ];
 
