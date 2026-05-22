@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { submitEnquiry } from "../supabaseService";
 
 const contactInfo = [
   {
@@ -76,12 +77,23 @@ const ContactPage = () => {
   };
 
   const handleSubmit = async () => {
-    if (!formData.name || !formData.phone || !formData.message) return;
-    setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-    setLoading(false);
-    setSubmitted(true);
-  };
+      if (!formData.name || !formData.phone || !formData.message) return;
+      setLoading(true);
+      const result = await submitEnquiry({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        interest: formData.interest,
+        message: formData.message,
+        status: "New",
+      });
+      setLoading(false);
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
+    };
 
   return (
     <div className="bg-white text-gray-900 min-h-screen">

@@ -1,135 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { SlidersHorizontal, Search, X, ChevronDown } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CarCard from "../components/CarCard";
-
-const allCars = [
-  {
-    id: "1",
-    make: "Toyota",
-    model: "Land Cruiser V8",
-    year: "2023",
-    price: 85000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    type: "SUV",
-    image: `${import.meta.env.BASE_URL}cars/car1.jpg`,
-  },
-  {
-    id: "2",
-    make: "Mercedes-Benz",
-    model: "GLE 450 AMG",
-    year: "2023",
-    price: 120000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    type: "SUV",
-    image: `${import.meta.env.BASE_URL}cars/car2.jpg`,
-  },
-  {
-    id: "3",
-    make: "BMW",
-    model: "X5 xDrive40i",
-    year: "2022",
-    price: 95000000,
-    condition: "Used",
-    fuel: "Petrol",
-    mileage: "12,000 km",
-    transmission: "Automatic",
-    type: "SUV",
-    image: `${import.meta.env.BASE_URL}cars/car3.jpg`,
-  },
-  {
-    id: "4",
-    make: "Lexus",
-    model: "LX 600 F-Sport",
-    year: "2023",
-    price: 145000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    type: "SUV",
-    image: `${import.meta.env.BASE_URL}cars/car4.jpg`,
-  },
-  {
-    id: "5",
-    make: "Range Rover",
-    model: "Sport HSE Dynamic",
-    year: "2022",
-    price: 130000000,
-    condition: "Used",
-    fuel: "Petrol",
-    mileage: "8,500 km",
-    transmission: "Automatic",
-    type: "SUV",
-    image: `${import.meta.env.BASE_URL}cars/car5.jpg`,
-  },
-  {
-    id: "6",
-    make: "Porsche",
-    model: "Cayenne S",
-    year: "2023",
-    price: 175000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    type: "SUV",
-    image: `${import.meta.env.BASE_URL}cars/car6.jpg`,
-  },
-  {
-    id: "7",
-    make: "Mercedes-Benz",
-    model: "C300 AMG Line",
-    year: "2022",
-    price: 75000000,
-    condition: "Used",
-    fuel: "Petrol",
-    mileage: "15,000 km",
-    transmission: "Automatic",
-    type: "Sedan",
-    image: `${import.meta.env.BASE_URL}cars/car7.jpg`,
-  },
-  {
-    id: "8",
-    make: "BMW",
-    model: "5 Series 530i",
-    year: "2023",
-    price: 88000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    type: "Sedan",
-    image: `${import.meta.env.BASE_URL}cars/car8.jpg`,
-  },
-  {
-    id: "9",
-    make: "Toyota",
-    model: "Camry XSE V6",
-    year: "2023",
-    price: 45000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    type: "Sedan",
-    image: `${import.meta.env.BASE_URL}cars/car9.jpg`,
-  },
-];
+import { fetchInventory } from "../supabaseService";
 
 const makes = ["All", "Toyota", "Mercedes-Benz", "BMW", "Lexus", "Range Rover", "Porsche"];
 const types = ["All", "SUV", "Sedan", "Truck", "Coupe"];
 const conditions = ["All", "New", "Used"];
 
 const InventoryPage = () => {
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedMake, setSelectedMake] = useState("All");
   const [selectedType, setSelectedType] = useState("All");
@@ -137,11 +20,20 @@ const InventoryPage = () => {
   const [sortBy, setSortBy] = useState("default");
   const [showFilters, setShowFilters] = useState(false);
 
-  const filtered = allCars
+  useEffect(() => {
+    const loadInventory = async () => {
+      const data = await fetchInventory();
+      setCars(data);
+      setLoading(false);
+    };
+    loadInventory();
+  }, []);
+
+  const filtered = cars
     .filter((car) => {
       const matchesSearch =
-        car.make.toLowerCase().includes(search.toLowerCase()) ||
-        car.model.toLowerCase().includes(search.toLowerCase());
+        car.make?.toLowerCase().includes(search.toLowerCase()) ||
+        car.model?.toLowerCase().includes(search.toLowerCase());
       const matchesMake =
         selectedMake === "All" || car.make === selectedMake;
       const matchesType =
@@ -203,8 +95,6 @@ const InventoryPage = () => {
 
         {/* Search + Filter Bar */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 mb-8">
-
-          {/* Search */}
           <div className="relative flex-1">
             <Search
               size={16}
@@ -227,7 +117,6 @@ const InventoryPage = () => {
             )}
           </div>
 
-          {/* Sort */}
           <div className="relative">
             <select
               value={sortBy}
@@ -245,7 +134,6 @@ const InventoryPage = () => {
             />
           </div>
 
-          {/* Filter Toggle */}
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-semibold transition-all duration-300 ${
@@ -258,7 +146,6 @@ const InventoryPage = () => {
             Filters
           </button>
 
-          {/* Clear Filters */}
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
@@ -281,8 +168,6 @@ const InventoryPage = () => {
           className="overflow-hidden mb-8"
         >
           <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
-
-            {/* Make */}
             <div>
               <p className="text-gray-600 text-xs font-semibold tracking-wide mb-3">
                 Make
@@ -304,7 +189,6 @@ const InventoryPage = () => {
               </div>
             </div>
 
-            {/* Type */}
             <div>
               <p className="text-gray-600 text-xs font-semibold tracking-wide mb-3">
                 Type
@@ -326,7 +210,6 @@ const InventoryPage = () => {
               </div>
             </div>
 
-            {/* Condition */}
             <div>
               <p className="text-gray-600 text-xs font-semibold tracking-wide mb-3">
                 Condition
@@ -350,54 +233,87 @@ const InventoryPage = () => {
           </div>
         </motion.div>
 
-        {/* Results Count */}
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-gray-500 text-sm">
-            Showing{" "}
-            <span className="text-gray-900 font-semibold">
-              {filtered.length}
-            </span>{" "}
-            {filtered.length === 1 ? "vehicle" : "vehicles"}
-          </p>
-        </div>
-
-        {/* Grid */}
-        {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((car, index) => (
-              <motion.div
-                key={car.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex items-center justify-center py-24">
+            <div className="flex flex-col items-center gap-3">
+              <svg
+                className="animate-spin h-8 w-8 text-blue-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
               >
-                <CarCard car={car} />
-              </motion.div>
-            ))}
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8z"
+                />
+              </svg>
+              <p className="text-gray-400 text-sm font-semibold">
+                Loading inventory...
+              </p>
+            </div>
           </div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex flex-col items-center justify-center py-24 text-center"
-          >
-            <div className="w-16 h-16 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center mb-4">
-              <Search size={24} className="text-gray-400" />
+          <>
+            {/* Results Count */}
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-gray-500 text-sm">
+                Showing{" "}
+                <span className="text-gray-900 font-semibold">
+                  {filtered.length}
+                </span>{" "}
+                {filtered.length === 1 ? "vehicle" : "vehicles"}
+              </p>
             </div>
-            <h3 className="text-gray-900 font-bold text-lg mb-2">
-              No Vehicles Found
-            </h3>
-            <p className="text-gray-400 text-sm max-w-sm">
-              No vehicles match your current filters. Try adjusting your
-              search or clearing the filters.
-            </p>
-            <button
-              onClick={clearFilters}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 mt-6"
-            >
-              Clear Filters
-            </button>
-          </motion.div>
+
+            {/* Grid */}
+            {filtered.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filtered.map((car, index) => (
+                  <motion.div
+                    key={car.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                  >
+                    <CarCard car={car} />
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center justify-center py-24 text-center"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center mb-4">
+                  <Search size={24} className="text-gray-400" />
+                </div>
+                <h3 className="text-gray-900 font-bold text-lg mb-2">
+                  No Vehicles Found
+                </h3>
+                <p className="text-gray-400 text-sm max-w-sm">
+                  No vehicles match your current filters. Try adjusting
+                  your search or clearing the filters.
+                </p>
+                <button
+                  onClick={clearFilters}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 mt-6"
+                >
+                  Clear Filters
+                </button>
+              </motion.div>
+            )}
+          </>
         )}
       </div>
 

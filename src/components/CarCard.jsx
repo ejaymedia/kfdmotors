@@ -17,7 +17,7 @@ const CarCard = ({ car }) => {
       {/* Image */}
       <div className="relative overflow-hidden h-52">
         <img
-          src={car.image}
+          src={car.image_url || car.image}
           alt={`${car.make} ${car.model}`}
           className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
         />

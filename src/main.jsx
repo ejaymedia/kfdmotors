@@ -10,7 +10,7 @@ import FAQPage from "./pages/FAQPage";
 import ContactPage from "./pages/ContactPage";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
-// import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 
 createRoot(document.getElementById("root")).render(
@@ -28,9 +28,9 @@ createRoot(document.getElementById("root")).render(
           <Route
             path="/admin-dashboard"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <AdminDashboard />
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
           />
         </Routes>

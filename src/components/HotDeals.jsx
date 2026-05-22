@@ -3,85 +3,76 @@ import { motion } from "framer-motion";
 import { ArrowRight, Flame } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import CarCard from "./CarCard";
-
-const placeholderCars = [
-  {
-    id: "1",
-    make: "Toyota",
-    model: "Land Cruiser V8",
-    year: "2023",
-    price: 85000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    image: `${import.meta.env.BASE_URL}cars/car1.jpg`,
-  },
-  {
-    id: "2",
-    make: "Mercedes-Benz",
-    model: "GLE 450 AMG",
-    year: "2023",
-    price: 120000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    image: `${import.meta.env.BASE_URL}cars/car2.jpg`,
-  },
-  {
-    id: "3",
-    make: "BMW",
-    model: "X5 xDrive40i",
-    year: "2022",
-    price: 95000000,
-    condition: "Used",
-    fuel: "Petrol",
-    mileage: "12,000 km",
-    transmission: "Automatic",
-    image: `${import.meta.env.BASE_URL}cars/car3.jpg`,
-  },
-  {
-    id: "4",
-    make: "Lexus",
-    model: "LX 600 F-Sport",
-    year: "2023",
-    price: 145000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    image: `${import.meta.env.BASE_URL}cars/car4.jpg`,
-  },
-  {
-    id: "5",
-    make: "Range Rover",
-    model: "Sport HSE Dynamic",
-    year: "2022",
-    price: 130000000,
-    condition: "Used",
-    fuel: "Petrol",
-    mileage: "8,500 km",
-    transmission: "Automatic",
-    image: `${import.meta.env.BASE_URL}cars/car5.jpg`,
-  },
-  {
-    id: "6",
-    make: "Porsche",
-    model: "Cayenne S",
-    year: "2023",
-    price: 175000000,
-    condition: "New",
-    fuel: "Petrol",
-    mileage: "0 km",
-    transmission: "Automatic",
-    image: `${import.meta.env.BASE_URL}cars/car6.jpg`,
-  },
-];
+import { fetchHotDeals } from "../supabaseService";
 
 const HotDeals = () => {
   const navigate = useNavigate();
-  const [cars, setCars] = useState(placeholderCars);
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadHotDeals = async () => {
+      const data = await fetchHotDeals();
+      setCars(data);
+      setLoading(false);
+    };
+    loadHotDeals();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-white py-20 px-6 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto flex items-center justify-center py-16">
+          <div className="flex flex-col items-center gap-3">
+            <svg
+              className="animate-spin h-8 w-8 text-blue-600"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8z"
+              />
+            </svg>
+            <p className="text-gray-400 text-sm">Loading deals...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (cars.length === 0) {
+    return (
+      <div className="bg-white py-20 px-6 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto text-center py-16">
+          <Flame size={40} className="text-gray-200 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-300">
+            No Hot Deals This Week
+          </h2>
+          <p className="text-gray-400 text-sm mt-2">
+            Check back soon or browse our full inventory.
+          </p>
+          <button
+            onClick={() => navigate("/inventory")}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 mx-auto mt-6"
+          >
+            Browse Inventory
+            <ArrowRight size={15} />
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white py-20 px-6 border-t border-gray-100">
@@ -111,7 +102,6 @@ const HotDeals = () => {
             </p>
           </motion.div>
 
-          {/* View All Button */}
           <motion.button
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}

@@ -4,7 +4,6 @@ import { supabase } from "./supabase";
    INVENTORY
 =========================== */
 export const fetchInventory = async (filters = {}) => {
-  if (!supabase) return [];
   try {
     let query = supabase.from("inventory").select("*");
     if (filters.make) query = query.ilike("make", `%${filters.make}%`);
@@ -12,7 +11,9 @@ export const fetchInventory = async (filters = {}) => {
     if (filters.condition) query = query.eq("condition", filters.condition);
     if (filters.minPrice) query = query.gte("price", filters.minPrice);
     if (filters.maxPrice) query = query.lte("price", filters.maxPrice);
-    const { data, error } = await query.order("created_at", { ascending: false });
+    const { data, error } = await query.order("created_at", {
+      ascending: false,
+    });
     if (error) throw error;
     return data || [];
   } catch (error) {
@@ -22,7 +23,6 @@ export const fetchInventory = async (filters = {}) => {
 };
 
 export const fetchCarById = async (id) => {
-  if (!supabase) return null;
   try {
     const { data, error } = await supabase
       .from("inventory")
@@ -37,54 +37,7 @@ export const fetchCarById = async (id) => {
   }
 };
 
-export const addCar = async (carData) => {
-  if (!supabase) return { success: false, error: "Supabase not configured" };
-  try {
-    const { data, error } = await supabase
-      .from("inventory")
-      .insert([carData])
-      .select();
-    if (error) throw error;
-    return { success: true, data };
-  } catch (error) {
-    console.error("Error adding car:", error);
-    return { success: false, error: error.message };
-  }
-};
-
-export const updateCar = async (id, carData) => {
-  if (!supabase) return { success: false, error: "Supabase not configured" };
-  try {
-    const { data, error } = await supabase
-      .from("inventory")
-      .update(carData)
-      .eq("id", id)
-      .select();
-    if (error) throw error;
-    return { success: true, data };
-  } catch (error) {
-    console.error("Error updating car:", error);
-    return { success: false, error: error.message };
-  }
-};
-
-export const deleteCar = async (id) => {
-  if (!supabase) return { success: false, error: "Supabase not configured" };
-  try {
-    const { error } = await supabase.from("inventory").delete().eq("id", id);
-    if (error) throw error;
-    return { success: true };
-  } catch (error) {
-    console.error("Error deleting car:", error);
-    return { success: false, error: error.message };
-  }
-};
-
-/* ===========================
-   HOT DEALS
-=========================== */
 export const fetchHotDeals = async () => {
-  if (!supabase) return [];
   try {
     const { data, error } = await supabase
       .from("inventory")
@@ -100,8 +53,47 @@ export const fetchHotDeals = async () => {
   }
 };
 
+export const addCar = async (carData) => {
+  try {
+    const { data, error } = await supabase
+      .from("inventory")
+      .insert([carData])
+      .select();
+    if (error) throw error;
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error adding car:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const updateCar = async (id, carData) => {
+  try {
+    const { data, error } = await supabase
+      .from("inventory")
+      .update(carData)
+      .eq("id", id)
+      .select();
+    if (error) throw error;
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error updating car:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const deleteCar = async (id) => {
+  try {
+    const { error } = await supabase.from("inventory").delete().eq("id", id);
+    if (error) throw error;
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting car:", error);
+    return { success: false, error: error.message };
+  }
+};
+
 export const toggleHotDeal = async (id, currentStatus) => {
-  if (!supabase) return { success: false, error: "Supabase not configured" };
   try {
     const { data, error } = await supabase
       .from("inventory")
@@ -117,10 +109,55 @@ export const toggleHotDeal = async (id, currentStatus) => {
 };
 
 /* ===========================
+   IMAGE UPLOAD
+=========================== */
+export const uploadCarImage = async (file) => {
+  try {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2)}.${fileExt}`;
+    const filePath = `cars/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("car-images")
+      .upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (uploadError) throw uploadError;
+
+    const { data } = supabase.storage
+      .from("car-images")
+      .getPublicUrl(filePath);
+
+    return { success: true, url: data.publicUrl };
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const deleteCarImage = async (imageUrl) => {
+  try {
+    const path = imageUrl.split("/car-images/")[1];
+    if (!path) return { success: false, error: "Invalid image URL" };
+    const { error } = await supabase.storage
+      .from("car-images")
+      .remove([path]);
+    if (error) throw error;
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+/* ===========================
    ENQUIRIES
 =========================== */
 export const submitEnquiry = async (enquiryData) => {
-  if (!supabase) return { success: false, error: "Supabase not configured" };
   try {
     const { error } = await supabase.from("enquiries").insert([enquiryData]);
     if (error) throw error;
@@ -132,7 +169,6 @@ export const submitEnquiry = async (enquiryData) => {
 };
 
 export const fetchEnquiries = async () => {
-  if (!supabase) return [];
   try {
     const { data, error } = await supabase
       .from("enquiries")
@@ -147,7 +183,6 @@ export const fetchEnquiries = async () => {
 };
 
 export const deleteEnquiry = async (id) => {
-  if (!supabase) return { success: false, error: "Supabase not configured" };
   try {
     const { error } = await supabase.from("enquiries").delete().eq("id", id);
     if (error) throw error;
@@ -159,7 +194,6 @@ export const deleteEnquiry = async (id) => {
 };
 
 export const updateEnquiryStatus = async (id, status) => {
-  if (!supabase) return { success: false, error: "Supabase not configured" };
   try {
     const { data, error } = await supabase
       .from("enquiries")

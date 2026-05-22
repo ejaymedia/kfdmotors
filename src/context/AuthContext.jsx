@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "../supabase";
 
 const AuthContext = createContext();
 
@@ -8,15 +9,46 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setCurrentUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setCurrentUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const login = async (email, password) => {
-    return { success: false, error: "Supabase not configured yet." };
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) throw error;
+      return { success: true, data };
+    } catch (error) {
+      console.error("Login error:", error);
+      return { success: false, error: error.message };
+    }
   };
 
   const logout = async () => {
-    setCurrentUser(null);
-    return { success: true };
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      return { success: true };
+    } catch (error) {
+      console.error("Logout error:", error);
+      return { success: false, error: error.message };
+    }
   };
 
   const value = {
@@ -28,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
