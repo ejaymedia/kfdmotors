@@ -277,14 +277,14 @@ const CarDetailPage = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
-              
+              <a
                 href="tel:+2348000000000"
                 className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3.5 px-6 rounded-full flex-1 transition-all duration-300 shadow-sm hover:shadow-md"
               >
                 <Phone size={15} />
                 Call to Buy
               </a>
-              
+              <a
                 href={`https://wa.me/2348000000000?text=I am interested in the ${car.year} ${car.make} ${car.model} listed on Kafadona Motors`}
                 target="_blank"
                 rel="noreferrer"
