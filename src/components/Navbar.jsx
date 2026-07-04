@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Logo from "/logo/Logo.png";
+import { useSite } from "../context/SiteContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { settings } = useSite();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -49,8 +50,8 @@ const Navbar = () => {
   const navLink = (id) =>
     `relative text-sm font-medium tracking-wide transition-all duration-200 pb-1 cursor-pointer ${
       active === id
-        ? "text-blue-600 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-blue-600 after:rounded-full"
-        : "text-gray-700 hover:text-blue-600"
+        ? "text-brand-600 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-brand-600 after:rounded-full"
+        : "text-gray-700 hover:text-brand-600"
     }`;
 
   return (
@@ -67,13 +68,19 @@ const Navbar = () => {
           {/* Logo */}
           <button
             onClick={() => goTo("/")}
-            className="flex items-center"
+            className="flex items-center gap-2"
           >
-            <img
-              src={Logo}
-              alt="Kafadona Motors"
-              className="h-10 w-auto object-contain"
-            />
+            {settings.logo_url ? (
+              <img
+                src={settings.logo_url}
+                alt={settings.business_name}
+                className="h-10 w-auto object-contain"
+              />
+            ) : (
+              <span className="text-gray-900 font-bold text-xl tracking-wide">
+                {settings.business_name}
+              </span>
+            )}
           </button>
 
           {/* Desktop Links */}
@@ -117,13 +124,13 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => goTo("/inventory")}
-              className="hidden md:inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md"
+              className="hidden md:inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md"
             >
               Browse Cars
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-gray-700 hover:text-blue-600 transition-colors p-1"
+              className="md:hidden text-gray-700 hover:text-brand-600 transition-colors p-1"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -176,7 +183,7 @@ const Navbar = () => {
           </button>
           <button
             onClick={() => goTo("/inventory")}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 text-center"
+            className="bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 text-center"
           >
             Browse Cars
           </button>

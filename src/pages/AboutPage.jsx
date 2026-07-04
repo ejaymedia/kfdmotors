@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useSite } from "../context/SiteContext";
 
 const stats = [
   { value: "500+", label: "Cars Sold" },
@@ -50,7 +51,7 @@ const team = [
     name: "Kingsley Festus",
     role: "Founder & CEO",
     initials: "KF",
-    bio: "With over 10 years in the automotive import industry, Kingsley founded Kafadona Motors with a vision to make premium vehicles accessible to Nigerians without compromise.",
+    bio: "With over 10 years in the automotive import industry, our founder built this business with a vision to make premium vehicles accessible to Nigerians without compromise.",
   },
   {
     name: "Daniella Okafor",
@@ -68,6 +69,7 @@ const team = [
 
 const AboutPage = () => {
   const navigate = useNavigate();
+  const { settings } = useSite();
 
   return (
     <div className="bg-white text-gray-900 min-h-screen">
@@ -81,16 +83,17 @@ const AboutPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
+            <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
               Our Story
             </span>
-            <div className="w-12 h-0.5 bg-blue-600 rounded-full my-3" />
+            <div className="w-12 h-0.5 bg-brand-500 rounded-full my-3" />
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
-              About Kafadona Motors
+              About {settings.business_name}
             </h1>
             <p className="text-gray-500 text-sm mt-3 max-w-lg leading-relaxed">
               Learn who we are, what drives us, and why thousands of
-              Nigerians trust us with their premium vehicle needs.
+              Nigerians trust {settings.business_name} with their premium
+              vehicle needs.
             </p>
           </motion.div>
         </div>
@@ -106,30 +109,30 @@ const AboutPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
+            <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
               Who We Are
             </span>
-            <div className="w-12 h-0.5 bg-blue-600 rounded-full my-3" />
+            <div className="w-12 h-0.5 bg-brand-500 rounded-full my-3" />
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-5 leading-snug">
               Built on Trust,
               <br />
-              <span className="text-blue-600">Driven by Excellence</span>
+              <span className="text-brand-500">Driven by Excellence</span>
             </h2>
             <div className="flex flex-col gap-4 text-gray-500 text-sm leading-relaxed">
               <p>
-                Kafadona Motors was founded with a single mission — to give
-                Nigerians access to the world's finest vehicles without the
-                stress, uncertainty, and hidden costs that plague the
-                industry.
+                {settings.business_name} was founded with a single mission
+                — to give Nigerians access to the world's finest vehicles
+                without the stress, uncertainty, and hidden costs that
+                plague the industry.
               </p>
               <p>
-                Over the past decade, we have built a reputation for
+                Over the years, we have built a reputation for
                 reliability, transparency, and unmatched after-sales
                 support. Every vehicle we sell is personally vetted, fully
                 documented, and delivered with care.
               </p>
               <p>
-                From our base in Victoria Island, Lagos, we serve clients
+                From our base in {settings.address}, we serve clients
                 across all 36 states of Nigeria, delivering premium
                 vehicles right to your doorstep regardless of location.
               </p>
@@ -144,7 +147,10 @@ const AboutPage = () => {
                 "Nationwide delivery available",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
-                  <CheckCircle size={15} className="text-blue-600 shrink-0" />
+                  <CheckCircle
+                    size={15}
+                    className="text-brand-500 shrink-0"
+                  />
                   <span className="text-gray-600 text-sm">{item}</span>
                 </div>
               ))}
@@ -168,7 +174,7 @@ const AboutPage = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-gray-50 border border-gray-100 rounded-2xl p-6 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300"
               >
-                <span className="text-4xl font-bold text-blue-600">
+                <span className="text-4xl font-bold text-brand-500">
                   {stat.value}
                 </span>
                 <p className="text-gray-500 text-sm mt-2">{stat.label}</p>
@@ -185,10 +191,10 @@ const AboutPage = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
+          <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
             What We Stand For
           </span>
-          <div className="w-12 h-0.5 bg-blue-600 rounded-full mx-auto my-3" />
+          <div className="w-12 h-0.5 bg-brand-500 rounded-full mx-auto my-3" />
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             Our Core Values
           </h2>
@@ -206,10 +212,10 @@ const AboutPage = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white border border-gray-100 rounded-2xl p-6 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 transition-colors duration-300">
+                <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center mx-auto mb-4 group-hover:bg-brand-500 transition-colors duration-300">
                   <Icon
                     size={22}
-                    className="text-blue-600 group-hover:text-white transition-colors duration-300"
+                    className="text-brand-500 group-hover:text-white transition-colors duration-300"
                   />
                 </div>
                 <h3 className="text-gray-900 font-bold text-lg mb-2">
@@ -231,10 +237,10 @@ const AboutPage = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
-            The People Behind Kafadona
+          <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
+            The People Behind {settings.business_name}
           </span>
-          <div className="w-12 h-0.5 bg-blue-600 rounded-full mx-auto my-3" />
+          <div className="w-12 h-0.5 bg-brand-500 rounded-full mx-auto my-3" />
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             Meet Our Team
           </h2>
@@ -254,7 +260,7 @@ const AboutPage = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white border border-gray-100 rounded-2xl p-6 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300"
             >
-              <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4 shadow-md shadow-blue-200">
+              <div className="w-16 h-16 rounded-full bg-brand-500 flex items-center justify-center mx-auto mb-4 shadow-md shadow-brand-100">
                 <span className="text-white font-bold text-lg">
                   {member.initials}
                 </span>
@@ -262,7 +268,7 @@ const AboutPage = () => {
               <h3 className="text-gray-900 font-bold text-lg mb-1">
                 {member.name}
               </h3>
-              <p className="text-blue-600 text-xs font-bold tracking-widest uppercase mb-3">
+              <p className="text-brand-500 text-xs font-bold tracking-widest uppercase mb-3">
                 {member.role}
               </p>
               <p className="text-gray-500 text-sm leading-relaxed">
@@ -278,22 +284,23 @@ const AboutPage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-blue-600 rounded-2xl p-10 text-center"
+          className="bg-brand-500 rounded-2xl p-10 text-center"
         >
-          <span className="text-blue-200 text-xs font-bold tracking-[0.2em] uppercase">
+          <span className="text-brand-100 text-xs font-bold tracking-[0.2em] uppercase">
             Ready to Get Started?
           </span>
           <h2 className="text-3xl font-bold text-white mt-3 mb-3">
             Let Us Find Your Perfect Car
           </h2>
-          <p className="text-blue-100 text-sm max-w-md mx-auto leading-relaxed mb-8">
+          <p className="text-brand-100 text-sm max-w-md mx-auto leading-relaxed mb-8">
             Whether you are buying, importing, or just exploring your
-            options, our team is ready to guide you every step of the way.
+            options, the team at {settings.business_name} is ready to
+            guide you every step of the way.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={() => navigate("/inventory")}
-              className="flex items-center gap-2 bg-white text-blue-600 hover:bg-blue-50 text-sm font-bold px-7 py-3.5 rounded-full transition-all duration-300 shadow-sm"
+              className="flex items-center gap-2 bg-white text-brand-500 hover:bg-brand-50 text-sm font-bold px-7 py-3.5 rounded-full transition-all duration-300 shadow-sm"
             >
               Browse Inventory
               <ArrowRight size={15} />

@@ -16,14 +16,17 @@ import {
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { fetchCarById } from "../supabaseService";
+import { useSite } from "../context/SiteContext";
 
 const CarDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { settings } = useSite();
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
   const [saved, setSaved] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const loadCar = async () => {
@@ -45,6 +48,12 @@ const CarDetailPage = () => {
     return [car.image_url];
   };
 
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   if (loading) {
     return (
       <div className="bg-white min-h-screen">
@@ -52,7 +61,7 @@ const CarDetailPage = () => {
         <div className="flex items-center justify-center min-h-screen">
           <div className="flex flex-col items-center gap-3">
             <svg
-              className="animate-spin h-8 w-8 text-blue-600"
+              className="animate-spin h-8 w-8 text-brand-500"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -93,7 +102,7 @@ const CarDetailPage = () => {
           </p>
           <button
             onClick={() => navigate("/inventory")}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300"
+            className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300"
           >
             Back to Inventory
           </button>
@@ -114,7 +123,7 @@ const CarDetailPage = () => {
         {/* Back Button */}
         <button
           onClick={() => navigate("/inventory")}
-          className="flex items-center gap-2 text-gray-500 hover:text-blue-600 text-sm font-semibold mb-8 transition-colors group"
+          className="flex items-center gap-2 text-gray-500 hover:text-brand-500 text-sm font-semibold mb-8 transition-colors group"
         >
           <ArrowLeft
             size={16}
@@ -150,7 +159,7 @@ const CarDetailPage = () => {
                 <span
                   className={`text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${
                     car.condition === "New"
-                      ? "bg-blue-600 text-white"
+                      ? "bg-brand-500 text-white"
                       : "bg-black/70 text-white backdrop-blur-sm"
                   }`}
                 >
@@ -181,7 +190,7 @@ const CarDetailPage = () => {
                     onClick={() => setActiveImage(index)}
                     className={`flex-1 h-20 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
                       activeImage === index
-                        ? "border-blue-600"
+                        ? "border-brand-500"
                         : "border-gray-100 hover:border-gray-300"
                     }`}
                   >
@@ -202,7 +211,7 @@ const CarDetailPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
+            <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
               {car.make}
             </span>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-1 mb-1">
@@ -212,7 +221,7 @@ const CarDetailPage = () => {
 
             {/* Price */}
             <div className="flex items-baseline gap-2 mb-6">
-              <span className="text-3xl font-bold text-blue-600">
+              <span className="text-3xl font-bold text-brand-500">
                 ₦{Number(car.price)?.toLocaleString()}
               </span>
             </div>
@@ -235,7 +244,7 @@ const CarDetailPage = () => {
                     key={spec.label}
                     className="bg-gray-50 border border-gray-100 rounded-xl p-3 flex flex-col items-center text-center gap-1.5"
                   >
-                    <Icon size={16} className="text-blue-600" />
+                    <Icon size={16} className="text-brand-500" />
                     <span className="text-gray-400 text-[10px] tracking-wide">
                       {spec.label}
                     </span>
@@ -253,7 +262,10 @@ const CarDetailPage = () => {
                 { label: "Engine", value: car.engine },
                 { label: "Power", value: car.power },
                 { label: "Color", value: car.color },
-                { label: "Seats", value: car.seats ? `${car.seats} Seats` : null },
+                {
+                  label: "Seats",
+                  value: car.seats ? `${car.seats} Seats` : null,
+                },
               ]
                 .filter((item) => item.value)
                 .map((item) => (
@@ -278,17 +290,17 @@ const CarDetailPage = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <a
-                href="tel:+2348000000000"
-                className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3.5 px-6 rounded-full flex-1 transition-all duration-300 shadow-sm hover:shadow-md"
+                href={`tel:${settings.phone}`}
+                className="flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold py-3.5 px-6 rounded-full flex-1 transition-all duration-300 shadow-sm hover:shadow-md"
               >
                 <Phone size={15} />
                 Call to Buy
               </a>
               <a
-                href={`https://wa.me/2348000000000?text=I am interested in the ${car.year} ${car.make} ${car.model} listed on Kafadona Motors`}
+                href={`https://wa.me/${settings.whatsapp}?text=I am interested in the ${car.year} ${car.make} ${car.model} listed on ${settings.business_name}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 border border-gray-200 hover:border-blue-600 text-gray-700 hover:text-blue-600 text-sm font-semibold py-3.5 px-6 rounded-full flex-1 transition-all duration-300"
+                className="flex items-center justify-center gap-2 border border-gray-200 hover:border-brand-500 text-gray-700 hover:text-brand-500 text-sm font-semibold py-3.5 px-6 rounded-full flex-1 transition-all duration-300"
               >
                 <MessageCircle size={15} />
                 WhatsApp
@@ -297,13 +309,11 @@ const CarDetailPage = () => {
 
             {/* Share */}
             <button
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-              }}
-              className="flex items-center gap-2 text-gray-400 hover:text-blue-600 text-xs font-semibold transition-colors"
+              onClick={handleShare}
+              className="flex items-center gap-2 text-gray-400 hover:text-brand-500 text-xs font-semibold transition-colors"
             >
               <Share2 size={13} />
-              Copy link to share
+              {copied ? "Link copied!" : "Copy link to share"}
             </button>
           </motion.div>
         </div>
@@ -323,7 +333,10 @@ const CarDetailPage = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-center gap-3">
-                  <CheckCircle size={16} className="text-blue-600 shrink-0" />
+                  <CheckCircle
+                    size={16}
+                    className="text-brand-500 shrink-0"
+                  />
                   <span className="text-gray-600 text-sm">{feature}</span>
                 </div>
               ))}

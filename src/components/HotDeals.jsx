@@ -4,9 +4,11 @@ import { ArrowRight, Flame } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import CarCard from "./CarCard";
 import { fetchHotDeals } from "../supabaseService";
+import { useSite } from "../context/SiteContext";
 
 const HotDeals = () => {
   const navigate = useNavigate();
+  const { settings } = useSite();
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +27,7 @@ const HotDeals = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-center py-16">
           <div className="flex flex-col items-center gap-3">
             <svg
-              className="animate-spin h-8 w-8 text-blue-600"
+              className="animate-spin h-8 w-8 text-brand-500"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -64,7 +66,7 @@ const HotDeals = () => {
           </p>
           <button
             onClick={() => navigate("/inventory")}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 mx-auto mt-6"
+            className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 mx-auto mt-6"
           >
             Browse Inventory
             <ArrowRight size={15} />
@@ -87,18 +89,19 @@ const HotDeals = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center gap-2 mb-2">
-              <Flame size={16} className="text-blue-600" />
-              <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
+              <Flame size={16} className="text-brand-500" />
+              <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
                 This Week
               </span>
             </div>
-            <div className="w-12 h-0.5 bg-blue-600 rounded-full mb-3" />
+            <div className="w-12 h-0.5 bg-brand-500 rounded-full mb-3" />
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               Hot Deals for the Week
             </h2>
             <p className="text-gray-500 text-sm mt-2 max-w-md leading-relaxed">
               Hand-picked vehicles available for immediate purchase or
-              order. Every car is fully verified and documented.
+              order. Every car is fully verified and documented by{" "}
+              {settings.business_name}.
             </p>
           </motion.div>
 
@@ -108,7 +111,7 @@ const HotDeals = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             onClick={() => navigate("/inventory")}
-            className="flex items-center gap-2 border border-gray-200 hover:border-blue-600 text-gray-700 hover:text-blue-600 text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 self-start md:self-auto whitespace-nowrap"
+            className="flex items-center gap-2 border border-gray-200 hover:border-brand-500 text-gray-700 hover:text-brand-500 text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 self-start md:self-auto whitespace-nowrap"
           >
             View All Cars
             <ArrowRight size={15} />
@@ -140,7 +143,7 @@ const HotDeals = () => {
         >
           <button
             onClick={() => navigate("/inventory")}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-8 py-3.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md"
+            className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-8 py-3.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md"
           >
             Browse Full Inventory
             <ArrowRight size={15} />

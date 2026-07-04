@@ -7,6 +7,7 @@ import {
   BadgeCheck,
   Clock,
 } from "lucide-react";
+import { useSite } from "../context/SiteContext";
 
 const reasons = [
   {
@@ -37,7 +38,7 @@ const reasons = [
     icon: BadgeCheck,
     title: "Trusted by Thousands",
     description:
-      "Over 1,200 satisfied clients across Nigeria trust Kafadona Motors for their premium vehicle needs.",
+      "Over 1,200 satisfied clients across Nigeria trust us for their premium vehicle needs.",
   },
   {
     icon: Clock,
@@ -48,6 +49,8 @@ const reasons = [
 ];
 
 const WhyChooseUs = () => {
+  const { settings } = useSite();
+
   return (
     <div className="bg-gray-50 py-20 px-6 border-t border-gray-100">
       <div className="max-w-7xl mx-auto">
@@ -60,12 +63,12 @@ const WhyChooseUs = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
-            Why Kafadona Motors
+          <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
+            Why {settings.business_name}
           </span>
-          <div className="w-12 h-0.5 bg-blue-600 rounded-full mx-auto my-3" />
+          <div className="w-12 h-0.5 bg-brand-500 rounded-full mx-auto my-3" />
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-            The Kafadona Difference
+            The {settings.business_name} Difference
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-xl mx-auto leading-relaxed">
             We are not just a dealership. We are your personal vehicle
@@ -88,10 +91,10 @@ const WhyChooseUs = () => {
                 className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
               >
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors duration-300">
+                <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center mb-4 group-hover:bg-brand-500 transition-colors duration-300">
                   <Icon
                     size={22}
-                    className="text-blue-600 group-hover:text-white transition-colors duration-300"
+                    className="text-brand-500 group-hover:text-white transition-colors duration-300"
                   />
                 </div>
 

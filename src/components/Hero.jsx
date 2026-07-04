@@ -2,9 +2,11 @@ import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Typewriter } from "react-simple-typewriter";
+import { useSite } from "../context/SiteContext";
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { settings } = useSite();
 
   const scrollToNext = () => {
     const el = document.getElementById("stats");
@@ -15,11 +17,19 @@ const Hero = () => {
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image + Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
-          src={`${import.meta.env.BASE_URL}hero/hero-bg.jpg`}
-          alt="Kafadona Motors Hero"
-          className="w-full h-full object-cover object-center"
-        />
+        {settings.hero_url ? (
+          <img
+            src={settings.hero_url}
+            alt={`${settings.business_name} Hero`}
+            className="w-full h-full object-cover object-center"
+          />
+        ) : (
+          <img
+            src={`${import.meta.env.BASE_URL}hero/hero-bg.jpg`}
+            alt={`${settings.business_name} Hero`}
+            className="w-full h-full object-cover object-center"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
       </div>
@@ -35,9 +45,9 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex items-center gap-3 mb-6"
           >
-            <div className="w-8 h-[1px] bg-blue-400" />
-            <span className="text-blue-400 text-xs font-semibold tracking-[0.2em] uppercase">
-              Welcome to Kafadona Motors
+            <div className="w-8 h-[1px] bg-brand-400" />
+            <span className="text-brand-400 text-xs font-semibold tracking-[0.2em] uppercase">
+              Welcome to {settings.business_name}
             </span>
           </motion.div>
 
@@ -48,9 +58,9 @@ const Hero = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4"
           >
-            Drive the Car
+            {settings.tagline}
             <br />
-            <span className="text-blue-400">
+            <span className="text-brand-400">
               <Typewriter
                 words={[
                   "of Your Dreams.",
@@ -88,7 +98,7 @@ const Hero = () => {
           >
             <button
               onClick={() => navigate("/inventory")}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-7 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-600/30"
+              className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-7 py-3.5 rounded-full transition-all duration-300 shadow-lg"
             >
               Explore Inventory
               <ArrowRight size={16} />
@@ -114,7 +124,7 @@ const Hero = () => {
               "After-Sales Support",
             ].map((badge) => (
               <div key={badge} className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                <div className="w-1.5 h-1.5 rounded-full bg-brand-400" />
                 <span className="text-gray-300 text-xs tracking-wide">
                   {badge}
                 </span>
@@ -130,7 +140,7 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-gray-400 hover:text-blue-400 transition-colors"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-gray-400 hover:text-brand-400 transition-colors"
       >
         <span className="text-[10px] tracking-[0.2em] uppercase">Scroll</span>
         <motion.div

@@ -8,6 +8,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useSite } from "../context/SiteContext";
 
 const services = [
   {
@@ -54,6 +55,7 @@ const services = [
 
 const Services = () => {
   const navigate = useNavigate();
+  const { settings } = useSite();
 
   return (
     <div className="bg-white py-20 px-6 border-t border-gray-100">
@@ -67,16 +69,17 @@ const Services = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
+          <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
             What We Offer
           </span>
-          <div className="w-12 h-0.5 bg-blue-600 rounded-full mx-auto my-3" />
+          <div className="w-12 h-0.5 bg-brand-500 rounded-full mx-auto my-3" />
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             Our Services
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-xl mx-auto leading-relaxed">
-            From sourcing to delivery, we provide a complete end-to-end
-            vehicle experience tailored to your needs.
+            From sourcing to delivery, {settings.business_name} provides
+            a complete end-to-end vehicle experience tailored to your
+            needs.
           </p>
         </motion.div>
 
@@ -95,10 +98,10 @@ const Services = () => {
               >
                 {/* Icon + Title */}
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-colors duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center shrink-0 group-hover:bg-brand-500 transition-colors duration-300">
                     <Icon
                       size={22}
-                      className="text-blue-600 group-hover:text-white transition-colors duration-300"
+                      className="text-brand-500 group-hover:text-white transition-colors duration-300"
                     />
                   </div>
                   <h3 className="text-gray-900 font-bold text-lg leading-snug mt-1">
@@ -114,7 +117,7 @@ const Services = () => {
                 {/* Link */}
                 <button
                   onClick={() => navigate(service.link)}
-                  className="flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors group/link self-start"
+                  className="flex items-center gap-2 text-sm font-semibold text-brand-500 hover:text-brand-600 transition-colors group/link self-start"
                 >
                   {service.linkText}
                   <ArrowRight
@@ -132,24 +135,24 @@ const Services = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: services.length * 0.1 }}
-            className="rounded-2xl p-6 flex flex-col justify-between bg-blue-600 hover:bg-blue-700 transition-colors duration-300 hover:-translate-y-1 hover:shadow-md"
+            className="rounded-2xl p-6 flex flex-col justify-between bg-brand-500 hover:bg-brand-600 transition-colors duration-300 hover:-translate-y-1 hover:shadow-md"
           >
             <div>
-              <span className="text-blue-200 text-xs font-bold tracking-[0.2em] uppercase">
+              <span className="text-brand-100 text-xs font-bold tracking-[0.2em] uppercase">
                 Get Started
               </span>
               <h3 className="text-white font-bold text-xl mt-3 mb-3 leading-snug">
                 Not Sure Where to Begin?
               </h3>
-              <p className="text-blue-100 text-sm leading-relaxed">
-                Speak with one of our vehicle consultants today. We will
-                guide you through the entire process from selection to
-                delivery.
+              <p className="text-brand-100 text-sm leading-relaxed">
+                Speak with one of our vehicle consultants at{" "}
+                {settings.business_name} today. We will guide you through
+                the entire process from selection to delivery.
               </p>
             </div>
             <button
               onClick={() => navigate("/contact")}
-              className="flex items-center gap-2 bg-white text-blue-600 hover:bg-blue-50 text-sm font-bold px-5 py-2.5 rounded-full mt-6 self-start transition-all duration-300"
+              className="flex items-center gap-2 bg-white text-brand-500 hover:bg-brand-50 text-sm font-bold px-5 py-2.5 rounded-full mt-6 self-start transition-all duration-300"
             >
               Talk to Us
               <ArrowRight size={14} />

@@ -26,7 +26,7 @@ const stats = [
 
 const StatsBar = () => {
   return (
-    <div className="bg-blue-600 py-10 px-6">
+    <div className="bg-brand-500 py-10 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => {
@@ -51,7 +51,7 @@ const StatsBar = () => {
                 </span>
 
                 {/* Label */}
-                <span className="text-blue-100 text-sm tracking-wide">
+                <span className="text-brand-100 text-sm tracking-wide">
                   {stat.label}
                 </span>
               </motion.div>

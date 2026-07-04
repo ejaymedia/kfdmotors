@@ -3,11 +3,12 @@ import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Logo from "/logo/Logo.png";
+import { useSite } from "../context/SiteContext";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { settings } = useSite();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -43,7 +44,6 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6">
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -52,12 +52,23 @@ const AdminLogin = () => {
       >
         {/* Logo */}
         <div className="flex flex-col items-center mb-10">
-          <img
-            src={Logo}
-            alt="Kafadona Motors"
-            className="h-14 w-auto object-contain mb-4"
-          />
-          <p className="text-blue-600 text-xs font-bold tracking-[0.3em] uppercase">
+          {settings.logo_url ? (
+            <img
+              src={settings.logo_url}
+              alt={settings.business_name}
+              className="h-14 w-auto object-contain mb-4"
+            />
+          ) : (
+            <div className="w-14 h-14 rounded-2xl bg-brand-500 flex items-center justify-center mb-4 shadow-lg shadow-brand-100">
+              <span className="text-white font-bold text-2xl">
+                {settings.business_name?.[0] ?? "K"}
+              </span>
+            </div>
+          )}
+          <h1 className="text-gray-900 font-bold text-xl">
+            {settings.business_name}
+          </h1>
+          <p className="text-brand-500 text-xs font-bold tracking-[0.3em] uppercase mt-1">
             Admin Portal
           </p>
         </div>
@@ -69,7 +80,7 @@ const AdminLogin = () => {
               Welcome Back
             </h2>
             <p className="text-gray-400 text-sm mt-1">
-              Sign in to access the admin dashboard
+              Sign in to access the {settings.business_name} dashboard
             </p>
           </div>
 
@@ -91,8 +102,8 @@ const AdminLogin = () => {
                   value={formData.email}
                   onChange={handleChange}
                   onKeyDown={handleKeyDown}
-                  placeholder="admin@kafadonamotors.com"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+                  placeholder={`admin@${settings.business_name?.toLowerCase().replace(/\s+/g, "")}`.slice(0, 30) + ".com"}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all"
                 />
               </div>
             </div>
@@ -114,7 +125,7 @@ const AdminLogin = () => {
                   onChange={handleChange}
                   onKeyDown={handleKeyDown}
                   placeholder="••••••••"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-11 py-3 text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-11 py-3 text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all"
                 />
                 <button
                   onClick={() => setShowPassword(!showPassword)}
@@ -141,7 +152,7 @@ const AdminLogin = () => {
             <button
               onClick={handleLogin}
               disabled={loading || !formData.email || !formData.password}
-              className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed text-white text-sm font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md mt-1"
+              className="flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 disabled:bg-brand-300 disabled:cursor-not-allowed text-white text-sm font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md mt-1"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -181,9 +192,9 @@ const AdminLogin = () => {
         <div className="text-center mt-6">
           <button
             onClick={() => navigate("/")}
-            className="text-gray-400 text-xs font-semibold hover:text-blue-600 transition-colors"
+            className="text-gray-400 text-xs font-semibold hover:text-brand-500 transition-colors"
           >
-            ← Back to Kafadona Motors
+            ← Back to {settings.business_name}
           </button>
         </div>
       </motion.div>

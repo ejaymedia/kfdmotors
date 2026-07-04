@@ -5,15 +5,17 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CarCard from "../components/CarCard";
 import { fetchInventory } from "../supabaseService";
+import { useSite } from "../context/SiteContext";
 
-const makes = ["All", "Toyota", "Mercedes-Benz", "BMW", "Lexus", "Range Rover", "Porsche"];
 const types = ["All", "SUV", "Sedan", "Truck", "Coupe"];
 const conditions = ["All", "New", "Used"];
 
 const InventoryPage = () => {
+  const { settings } = useSite();
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [makes, setMakes] = useState(["All"]);
   const [selectedMake, setSelectedMake] = useState("All");
   const [selectedType, setSelectedType] = useState("All");
   const [selectedCondition, setSelectedCondition] = useState("All");
@@ -24,6 +26,12 @@ const InventoryPage = () => {
     const loadInventory = async () => {
       const data = await fetchInventory();
       setCars(data);
+      // Build makes list dynamically from real inventory
+      const uniqueMakes = [
+        "All",
+        ...new Set(data.map((car) => car.make).filter(Boolean)),
+      ];
+      setMakes(uniqueMakes);
       setLoading(false);
     };
     loadInventory();
@@ -76,16 +84,17 @@ const InventoryPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
+            <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
               Browse
             </span>
-            <div className="w-12 h-0.5 bg-blue-600 rounded-full my-3" />
+            <div className="w-12 h-0.5 bg-brand-500 rounded-full my-3" />
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
               Our Inventory
             </h1>
             <p className="text-gray-500 text-sm mt-3 max-w-lg leading-relaxed">
-              Explore our full collection of premium vehicles. Filter by
-              make, type, or condition to find your perfect match.
+              Explore the full collection of premium vehicles at{" "}
+              {settings.business_name}. Filter by make, type, or
+              condition to find your perfect match.
             </p>
           </motion.div>
         </div>
@@ -105,7 +114,7 @@ const InventoryPage = () => {
               placeholder="Search by make or model..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all"
             />
             {search && (
               <button
@@ -121,7 +130,7 @@ const InventoryPage = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all appearance-none pr-8 cursor-pointer"
+              className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all appearance-none pr-8 cursor-pointer"
             >
               <option value="default">Sort By</option>
               <option value="price-asc">Price: Low to High</option>
@@ -138,8 +147,8 @@ const InventoryPage = () => {
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-semibold transition-all duration-300 ${
               showFilters
-                ? "bg-blue-600 border-blue-600 text-white"
-                : "bg-gray-50 border-gray-200 text-gray-700 hover:border-blue-400 hover:text-blue-600"
+                ? "bg-brand-500 border-brand-500 text-white"
+                : "bg-gray-50 border-gray-200 text-gray-700 hover:border-brand-400 hover:text-brand-500"
             }`}
           >
             <SlidersHorizontal size={15} />
@@ -179,8 +188,8 @@ const InventoryPage = () => {
                     onClick={() => setSelectedMake(make)}
                     className={`text-xs px-3 py-1.5 rounded-full border font-semibold transition-all duration-200 ${
                       selectedMake === make
-                        ? "bg-blue-600 border-blue-600 text-white"
-                        : "border-gray-200 text-gray-600 hover:border-blue-400 hover:text-blue-600"
+                        ? "bg-brand-500 border-brand-500 text-white"
+                        : "border-gray-200 text-gray-600 hover:border-brand-400 hover:text-brand-500"
                     }`}
                   >
                     {make}
@@ -200,8 +209,8 @@ const InventoryPage = () => {
                     onClick={() => setSelectedType(type)}
                     className={`text-xs px-3 py-1.5 rounded-full border font-semibold transition-all duration-200 ${
                       selectedType === type
-                        ? "bg-blue-600 border-blue-600 text-white"
-                        : "border-gray-200 text-gray-600 hover:border-blue-400 hover:text-blue-600"
+                        ? "bg-brand-500 border-brand-500 text-white"
+                        : "border-gray-200 text-gray-600 hover:border-brand-400 hover:text-brand-500"
                     }`}
                   >
                     {type}
@@ -221,8 +230,8 @@ const InventoryPage = () => {
                     onClick={() => setSelectedCondition(condition)}
                     className={`text-xs px-3 py-1.5 rounded-full border font-semibold transition-all duration-200 ${
                       selectedCondition === condition
-                        ? "bg-blue-600 border-blue-600 text-white"
-                        : "border-gray-200 text-gray-600 hover:border-blue-400 hover:text-blue-600"
+                        ? "bg-brand-500 border-brand-500 text-white"
+                        : "border-gray-200 text-gray-600 hover:border-brand-400 hover:text-brand-500"
                     }`}
                   >
                     {condition}
@@ -238,7 +247,7 @@ const InventoryPage = () => {
           <div className="flex items-center justify-center py-24">
             <div className="flex flex-col items-center gap-3">
               <svg
-                className="animate-spin h-8 w-8 text-blue-600"
+                className="animate-spin h-8 w-8 text-brand-500"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -307,7 +316,7 @@ const InventoryPage = () => {
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 mt-6"
+                  className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 mt-6"
                 >
                   Clear Filters
                 </button>

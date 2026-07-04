@@ -207,3 +207,60 @@ export const updateEnquiryStatus = async (id, status) => {
     return { success: false, error: error.message };
   }
 };
+
+/* ===========================
+   SITE SETTINGS
+=========================== */
+export const fetchSiteSettings = async () => {
+  try {
+    const { data, error } = await supabase
+      .from("site_settings")
+      .select("*")
+      .single();
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error fetching site settings:", error);
+    return null;
+  }
+};
+
+export const updateSiteSettings = async (settings) => {
+  try {
+    const { data, error } = await supabase
+      .from("site_settings")
+      .update({ ...settings, updated_at: new Date().toISOString() })
+      .eq("id", settings.id)
+      .select();
+    if (error) throw error;
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error updating site settings:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const uploadSiteAsset = async (file, fileName) => {
+  try {
+    const fileExt = file.name.split(".").pop();
+    const filePath = `${fileName}-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("site-assets")
+      .upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: true,
+      });
+
+    if (uploadError) throw uploadError;
+
+    const { data } = supabase.storage
+      .from("site-assets")
+      .getPublicUrl(filePath);
+
+    return { success: true, url: data.publicUrl };
+  } catch (error) {
+    console.error("Error uploading site asset:", error);
+    return { success: false, error: error.message };
+  }
+};

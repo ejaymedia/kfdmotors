@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Quote, Star } from "lucide-react";
+import { useSite } from "../context/SiteContext";
 
 const testimonials = [
   {
@@ -8,7 +9,7 @@ const testimonials = [
     name: "Chukwuemeka Obi",
     role: "Business Executive, Lagos",
     message:
-      "Kafadona Motors made the entire process seamless. I ordered a Mercedes GLE from the UK and it was delivered to my house fully cleared and registered in under 6 weeks. Absolutely world class service.",
+      "The entire process was seamless. I ordered a Mercedes GLE and it was delivered to my house fully cleared and registered in under 6 weeks. Absolutely world class service.",
     rating: 5,
     initials: "CO",
   },
@@ -17,7 +18,7 @@ const testimonials = [
     name: "Amina Bello",
     role: "Entrepreneur, Abuja",
     message:
-      "I was skeptical about importing a car at first but the Kafadona team walked me through every step. My Lexus LX 600 arrived in perfect condition with all documents intact. I will definitely be coming back.",
+      "I was skeptical about importing a car at first but the team walked me through every step. My Lexus LX 600 arrived in perfect condition with all documents intact. I will definitely be coming back.",
     rating: 5,
     initials: "AB",
   },
@@ -26,7 +27,7 @@ const testimonials = [
     name: "Tunde Fashola",
     role: "Engineer, Port Harcourt",
     message:
-      "Best car buying experience I have ever had in Nigeria. Transparent pricing, no hidden charges, and the after-sales support is genuinely excellent. Kafadona Motors is the real deal.",
+      "Best car buying experience I have ever had in Nigeria. Transparent pricing, no hidden charges, and the after-sales support is genuinely excellent. The real deal.",
     rating: 5,
     initials: "TF",
   },
@@ -35,7 +36,7 @@ const testimonials = [
     name: "Ngozi Adeyemi",
     role: "Medical Doctor, Ibadan",
     message:
-      "I bought a Toyota Land Cruiser V8 through Kafadona Motors and the whole process took just 5 weeks. The vehicle was exactly as described and the team was professional throughout. Highly recommended.",
+      "I bought a Toyota Land Cruiser V8 and the whole process took just 5 weeks. The vehicle was exactly as described and the team was professional throughout. Highly recommended.",
     rating: 5,
     initials: "NA",
   },
@@ -44,7 +45,7 @@ const testimonials = [
     name: "Emeka Nwosu",
     role: "Real Estate Developer, Lagos",
     message:
-      "Three cars purchased through Kafadona Motors and every single experience has been flawless. They are my go-to for all premium vehicle needs. The trust they have built is unmatched.",
+      "Three cars purchased and every single experience has been flawless. My go-to for all premium vehicle needs. The trust they have built is unmatched.",
     rating: 5,
     initials: "EN",
   },
@@ -53,6 +54,7 @@ const testimonials = [
 const Testimonials = () => {
   const [current, setCurrent] = useState(0);
   const intervalRef = useRef(null);
+  const { settings } = useSite();
 
   const startAutoSlide = () => {
     intervalRef.current = setInterval(() => {
@@ -89,17 +91,17 @@ const Testimonials = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <span className="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">
+          <span className="text-brand-500 text-xs font-bold tracking-[0.2em] uppercase">
             Client Stories
           </span>
-          <div className="w-12 h-0.5 bg-blue-600 rounded-full mx-auto my-3" />
+          <div className="w-12 h-0.5 bg-brand-500 rounded-full mx-auto my-3" />
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             What Our Clients Say
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-xl mx-auto leading-relaxed">
             Do not just take our word for it. Here is what real clients
-            across Nigeria have to say about their Kafadona Motors
-            experience.
+            across Nigeria have to say about their{" "}
+            {settings.business_name} experience.
           </p>
         </motion.div>
 
@@ -116,7 +118,7 @@ const Testimonials = () => {
             >
               {/* Quote Icon */}
               <div className="absolute top-6 right-8 opacity-5">
-                <Quote size={80} className="text-blue-600" />
+                <Quote size={80} className="text-brand-500" />
               </div>
 
               {/* Stars */}
@@ -126,7 +128,7 @@ const Testimonials = () => {
                     <Star
                       key={i}
                       size={16}
-                      className="text-blue-600 fill-blue-600"
+                      className="text-brand-500 fill-brand-500"
                     />
                   )
                 )}
@@ -139,7 +141,7 @@ const Testimonials = () => {
 
               {/* Client Info */}
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-full bg-brand-500 flex items-center justify-center shrink-0">
                   <span className="text-white font-bold text-sm">
                     {testimonials[current].initials}
                   </span>
@@ -164,8 +166,8 @@ const Testimonials = () => {
                 onClick={() => goTo(i)}
                 className={`transition-all duration-300 rounded-full ${
                   i === current
-                    ? "w-6 h-2 bg-blue-600"
-                    : "w-2 h-2 bg-gray-300 hover:bg-blue-300"
+                    ? "w-6 h-2 bg-brand-500"
+                    : "w-2 h-2 bg-gray-300 hover:bg-brand-300"
                 }`}
               />
             ))}

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Logo from "/logo/Logo.png";
+import { useSite } from "../context/SiteContext";
 
 const quickLinks = [
   { label: "Home", path: "/" },
@@ -19,23 +19,23 @@ const services = [
   { label: "After-Sales Support", path: "/contact" },
 ];
 
-const socials = [
-  { label: "IG", href: "https://www.instagram.com/kafadonamotors", name: "Instagram" },
-  { label: "FB", href: "#", name: "Facebook" },
-  { label: "TW", href: "#", name: "Twitter" },
-  { label: "YT", href: "#", name: "YouTube" },
-];
-
 const Footer = () => {
   const navigate = useNavigate();
+  const { settings } = useSite();
 
   const goTo = (path) => {
     navigate(path);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const socials = [
+    { label: "IG", href: settings.instagram || "#", name: "Instagram" },
+    { label: "FB", href: settings.facebook || "#", name: "Facebook" },
+    { label: "TT", href: settings.tiktok || "#", name: "TikTok" },
+  ];
+
   return (
-    <footer className="bg-gray-900 text-white border-t border-gray-800">
+    <footer className="bg-brand-900 text-white border-t border-brand-800">
 
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
@@ -49,14 +49,20 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
           >
             <button onClick={() => goTo("/")} className="mb-5 block">
-              <img
-                src={Logo}
-                alt="Kafadona Motors"
-                className="h-10 w-auto object-contain"
-              />
+              {settings.logo_url ? (
+                <img
+                  src={settings.logo_url}
+                  alt={settings.business_name}
+                  className="h-10 w-auto object-contain"
+                />
+              ) : (
+                <span className="text-white font-bold text-xl tracking-wide">
+                  {settings.business_name}
+                </span>
+              )}
             </button>
 
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+            <p className="text-brand-200 text-sm leading-relaxed mb-6">
               Nigeria's trusted destination for premium vehicle sales,
               direct imports, documentation, and after-sales support.
             </p>
@@ -70,7 +76,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={social.name}
-                  className="w-9 h-9 rounded-full bg-gray-800 hover:bg-blue-600 border border-gray-700 hover:border-blue-600 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 text-xs font-bold"
+                  className="w-9 h-9 rounded-full bg-brand-800 hover:bg-brand-500 border border-brand-700 hover:border-brand-500 flex items-center justify-center text-brand-200 hover:text-white transition-all duration-300 text-xs font-bold"
                 >
                   {social.label}
                 </a>
@@ -93,11 +99,11 @@ const Footer = () => {
                 <li key={link.label}>
                   <button
                     onClick={() => goTo(link.path)}
-                    className="flex items-center gap-2 text-gray-400 text-sm hover:text-blue-400 transition-colors duration-300 group"
+                    className="flex items-center gap-2 text-brand-200 text-sm hover:text-white transition-colors duration-300 group"
                   >
                     <ArrowRight
                       size={12}
-                      className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-blue-400"
+                      className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-brand-400"
                     />
                     {link.label}
                   </button>
@@ -121,11 +127,11 @@ const Footer = () => {
                 <li key={service.label}>
                   <button
                     onClick={() => goTo(service.path)}
-                    className="flex items-center gap-2 text-gray-400 text-sm hover:text-blue-400 transition-colors duration-300 group text-left"
+                    className="flex items-center gap-2 text-brand-200 text-sm hover:text-white transition-colors duration-300 group text-left"
                   >
                     <ArrowRight
                       size={12}
-                      className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-blue-400 shrink-0"
+                      className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-brand-400 shrink-0"
                     />
                     {service.label}
                   </button>
@@ -147,47 +153,51 @@ const Footer = () => {
             <ul className="flex flex-col gap-4">
               <li>
                 <a
-                  href="tel:+2348000000000"
+                  href={`tel:${settings.phone}`}
                   className="flex items-start gap-3 group"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:border-blue-600 transition-all duration-300 mt-0.5">
-                    <Phone size={13} className="text-gray-400 group-hover:text-white transition-colors duration-300" />
+                  <div className="w-8 h-8 rounded-lg bg-brand-800 border border-brand-700 flex items-center justify-center shrink-0 group-hover:bg-brand-500 group-hover:border-brand-500 transition-all duration-300 mt-0.5">
+                    <Phone
+                      size={13}
+                      className="text-brand-300 group-hover:text-white transition-colors duration-300"
+                    />
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs mb-0.5">Phone</p>
-                    <p className="text-gray-300 text-sm group-hover:text-blue-400 transition-colors duration-300">
-                      +234 800 000 0000
+                    <p className="text-brand-400 text-xs mb-0.5">Phone</p>
+                    <p className="text-brand-200 text-sm group-hover:text-white transition-colors duration-300">
+                      {settings.phone}
                     </p>
                   </div>
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:info@kafadonamotors.com"
+                  href={`mailto:${settings.email}`}
                   className="flex items-start gap-3 group"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:border-blue-600 transition-all duration-300 mt-0.5">
-                    <Mail size={13} className="text-gray-400 group-hover:text-white transition-colors duration-300" />
+                  <div className="w-8 h-8 rounded-lg bg-brand-800 border border-brand-700 flex items-center justify-center shrink-0 group-hover:bg-brand-500 group-hover:border-brand-500 transition-all duration-300 mt-0.5">
+                    <Mail
+                      size={13}
+                      className="text-brand-300 group-hover:text-white transition-colors duration-300"
+                    />
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs mb-0.5">Email</p>
-                    <p className="text-gray-300 text-sm group-hover:text-blue-400 transition-colors duration-300">
-                      info@kafadonamotors.com
+                    <p className="text-brand-400 text-xs mb-0.5">Email</p>
+                    <p className="text-brand-200 text-sm group-hover:text-white transition-colors duration-300">
+                      {settings.email}
                     </p>
                   </div>
                 </a>
               </li>
               <li>
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0 mt-0.5">
-                    <MapPin size={13} className="text-gray-400" />
+                  <div className="w-8 h-8 rounded-lg bg-brand-800 border border-brand-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <MapPin size={13} className="text-brand-300" />
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs mb-0.5">Address</p>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Victoria Island,
-                      <br />
-                      Lagos, Nigeria
+                    <p className="text-brand-400 text-xs mb-0.5">Address</p>
+                    <p className="text-brand-200 text-sm leading-relaxed">
+                      {settings.address}
                     </p>
                   </div>
                 </div>
@@ -198,24 +208,25 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-800 px-6 lg:px-8 py-5">
+      <div className="border-t border-brand-800 px-6 lg:px-8 py-5">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-gray-500 text-xs text-center sm:text-left">
-            © 2026 Kafadona Motors. All rights reserved. | Built with ❤️ by{" "}
+          <p className="text-brand-300 text-xs text-center sm:text-left">
+            © {new Date().getFullYear()} {settings.business_name}. All
+            rights reserved. | Built with ❤️ by{" "}
             <a
               href="https://elijah.is-a.dev"
               target="_blank"
               rel="noreferrer"
-              className="text-blue-400 hover:text-blue-300 transition-colors duration-300 underline underline-offset-2"
+              className="text-brand-400 hover:text-white transition-colors duration-300 underline underline-offset-2"
             >
               Ejay
             </a>
           </p>
           <div className="flex items-center gap-5">
-            <button className="text-gray-500 text-xs hover:text-gray-300 transition-colors">
+            <button className="text-brand-300 text-xs hover:text-white transition-colors">
               Privacy Policy
             </button>
-            <button className="text-gray-500 text-xs hover:text-gray-300 transition-colors">
+            <button className="text-brand-300 text-xs hover:text-white transition-colors">
               Terms of Service
             </button>
           </div>
