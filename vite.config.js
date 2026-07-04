@@ -5,18 +5,20 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ["react", "react-dom"],
-          router: ["react-router-dom"],
-          motion: ["framer-motion"],
-          supabase: ["@supabase/supabase-js"],
-          icons: ["lucide-react"],
+        manualChunks: (id) => {
+          if (id.includes("node_modules")) {
+            if (id.includes("react-dom") || id.includes("react/")) return "react";
+            if (id.includes("react-router-dom")) return "router";
+            if (id.includes("framer-motion")) return "motion";
+            if (id.includes("@supabase")) return "supabase";
+            if (id.includes("lucide-react")) return "icons";
+          }
         },
       },
     },
-    chunkSizeWarningLimit: 600,
   },
   base: '/kfdmotors/'
 });
