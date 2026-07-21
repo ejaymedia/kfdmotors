@@ -1199,6 +1199,7 @@ const AdminDashboard = () => {
                         {[
                           { label: "Business Name", key: "business_name" },
                           { label: "Tagline", key: "tagline" },
+                          { label: "Site Title", key: "site_title" },
                           { label: "Phone Number", key: "phone" },
                           { label: "WhatsApp Number", key: "whatsapp" },
                           { label: "Email Address", key: "email" },
@@ -1332,6 +1333,109 @@ const AdminDashboard = () => {
                           <p className="text-brand-500 text-xs font-semibold">✓ {heroFile.name}</p>
                         )}
                         <p className="text-gray-400 text-xs">High quality landscape image. Min 1920x1080px.</p>
+                      </div>
+                    </div>
+
+                    {/* Favicon Upload */}
+                    <div className="bg-white border border-gray-100 rounded-2xl p-5 sm:p-6">
+                      <h2 className="text-gray-900 font-bold text-sm sm:text-base mb-5 pb-3 border-b border-gray-100">
+                        Favicon
+                      </h2>
+                      <div className="flex items-center gap-4 sm:gap-6">
+                        <div className="w-16 h-16 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+                          {siteForm.favicon_url ? (
+                            <img
+                              src={siteForm.favicon_url}
+                              alt="Favicon preview"
+                              className="w-full h-full object-contain p-1"
+                            />
+                          ) : (
+                            <Image size={20} className="text-gray-300" />
+                          )}
+                        </div>
+                        <div className="flex flex-col gap-3">
+                          <label className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-xl transition-colors cursor-pointer">
+                            <Upload size={14} />
+                            Upload Favicon
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={async (e) => {
+                                const file = e.target.files[0];
+                                if (!file) return;
+                                const result = await uploadSiteAsset(file, "favicon");
+                                if (result.success) {
+                                  setSiteForm({ ...siteForm, favicon_url: result.url });
+                                  showToast("Favicon uploaded.");
+                                } else {
+                                  showToast("Favicon upload failed.", "error");
+                                }
+                              }}
+                              className="hidden"
+                            />
+                          </label>
+                          {siteForm.favicon_url && (
+                            <button
+                              onClick={() => setSiteForm({ ...siteForm, favicon_url: "" })}
+                              className="text-red-400 text-xs font-semibold hover:text-red-500 text-left"
+                            >
+                              Remove favicon
+                            </button>
+                          )}
+                          <p className="text-gray-400 text-xs">
+                            Square image recommended. PNG or ICO. Max 1MB.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* OG Image Upload */}
+                    <div className="bg-white border border-gray-100 rounded-2xl p-5 sm:p-6">
+                      <h2 className="text-gray-900 font-bold text-sm sm:text-base mb-1 pb-3 border-b border-gray-100">
+                        OG Image
+                      </h2>
+                      <p className="text-gray-400 text-xs mb-4 mt-3 leading-relaxed">
+                        This image shows when someone shares your link on WhatsApp, Instagram or any social platform. Recommended size: 1200 x 630px.
+                      </p>
+                      <div className="flex flex-col gap-4">
+                        {siteForm.og_image_url && (
+                          <div className="relative rounded-2xl overflow-hidden h-36 sm:h-40">
+                            <img
+                              src={siteForm.og_image_url}
+                              alt="OG image preview"
+                              className="w-full h-full object-cover"
+                            />
+                            <button
+                              onClick={() => setSiteForm({ ...siteForm, og_image_url: "" })}
+                              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        )}
+                        <label className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 text-xs sm:text-sm font-semibold px-4 sm:px-5 py-3 rounded-xl transition-colors cursor-pointer self-start">
+                          <Upload size={14} />
+                          {siteForm.og_image_url ? "Change OG Image" : "Upload OG Image"}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files[0];
+                              if (!file) return;
+                              const result = await uploadSiteAsset(file, "og-image");
+                              if (result.success) {
+                                setSiteForm({ ...siteForm, og_image_url: result.url });
+                                showToast("OG image uploaded.");
+                              } else {
+                                showToast("OG image upload failed.", "error");
+                              }
+                            }}
+                            className="hidden"
+                          />
+                        </label>
+                        <p className="text-gray-400 text-xs">
+                          JPG or PNG. Min 1200x630px for best results.
+                        </p>
                       </div>
                     </div>
 
